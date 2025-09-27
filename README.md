@@ -34,53 +34,45 @@ StudyAI est une application MVP qui transforme vos PDFs de cours en notes de ré
 
 ## 🚀 Installation et Lancement
 
-### 1. Backend
+### ⚡ Lancement rapide
+
+Deux scripts s'occupent maintenant de l'installation et du démarrage :
 
 ```bash
-# Naviguer vers le dossier backend
-cd backend
+# Terminal 1 : backend (FastAPI)
+./backend/uvicorn.run
 
-# Créer un environnement virtuel
-python3 -m venv venv
-
-# Activer l'environnement virtuel
-source venv/bin/activate  # Sur Windows: venv\Scripts\activate
-
-# Installer les dépendances
-pip install -e .
-
-# Configurer les variables d'environnement
-cp env.example .env
-# Éditer .env et ajouter votre clé API OpenAI
-# OPENAI_API_KEY=your_openai_api_key_here
-# OPENAI_MODEL=gpt-4o-mini
-
-# Lancer le serveur
-./uvicorn.run
-# Ou manuellement: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+# Terminal 2 : frontend (Next.js)
+./frontend/dev.sh
 ```
 
-Le backend sera accessible sur : http://localhost:8000
-Documentation API : http://localhost:8000/docs
+- Au **premier lancement**, chaque script crée automatiquement l'environnement (.venv ou .env.local), installe les dépendances et copie les fichiers d'environnement d'exemple.
+- Si `backend/.env` contient encore `your_openai_api_key_here`, le script du backend vous demandera de renseigner votre clé OpenAI avant de démarrer.
 
-### 2. Frontend
+Le backend sera accessible sur : http://localhost:8000 (documentation Swagger sur http://localhost:8000/docs).
+Le frontend sera accessible sur : http://localhost:3000.
+
+### 🛠️ Lancement manuel (optionnel)
+
+#### Backend
 
 ```bash
-# Naviguer vers le dossier frontend
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # Sur Windows: venv\Scripts\activate
+pip install -e .
+cp env.example .env  # puis éditer OPENAI_API_KEY et OPENAI_MODEL
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+#### Frontend
+
+```bash
 cd frontend
-
-# Installer les dépendances
 npm install
-
-# Configurer les variables d'environnement
 cp env.local.example .env.local
-# Le fichier .env.local contient déjà la bonne URL API
-
-# Lancer le serveur de développement
 npm run dev
 ```
-
-Le frontend sera accessible sur : http://localhost:3000
 
 ## 📁 Structure du Projet
 
