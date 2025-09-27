@@ -65,7 +65,24 @@ export default function Home() {
       const data: GenerateResponse = await response.json()
       setResult(data)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue')
+      if (err instanceof Error) {
+        const message = err.message
+        const normalized = message.toLowerCase()
+
+        if (
+          normalized.includes('failed to fetch') ||
+          normalized.includes('networkerror') ||
+          normalized.includes('load failed')
+        ) {
+          setError(
+            "Impossible de contacter le serveur. Vérifiez que le backend est bien démarré et que l'URL API est correcte."
+          )
+        } else {
+          setError(message)
+        }
+      } else {
+        setError('Une erreur est survenue')
+      }
     } finally {
       setIsLoading(false)
     }
